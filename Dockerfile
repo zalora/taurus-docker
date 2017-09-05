@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 LABEL maintainer="Wolfram Huesken <wolfram.huesken@zalora.com>"
 
 RUN apt-get update \
-    && apt-get install -y wget python python-dev python-pip zip bzip2 file imagemagick libxml2-dev libxslt-dev make xz-utils zlib1g-dev unzip curl python-tk git groovy \
+    && apt-get install -y wget python python-dev python-pip zip bzip2 file imagemagick libxml2-dev libxslt-dev make xz-utils zlib1g-dev unzip curl python-tk git groovy xmlstarlet \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
@@ -31,3 +31,6 @@ RUN apt-get update \
     && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY m2-settings.xml $MAVEN_CONFIG/settings.xml
+
+# Install httpie
+RUN pip install httpie && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
