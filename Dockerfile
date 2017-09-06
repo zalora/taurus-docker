@@ -2,7 +2,8 @@ FROM ubuntu:16.04
 LABEL maintainer="Wolfram Huesken <wolfram.huesken@zalora.com>"
 
 RUN apt-get update \
-    && apt-get install -y wget python python-dev python-pip zip bzip2 file imagemagick libxml2-dev libxslt-dev make xz-utils zlib1g-dev unzip curl python-tk git groovy xmlstarlet \
+    && apt-get install -y wget python python-dev python-pip zip bzip2 file imagemagick libxml2-dev libxslt-dev make \
+       xz-utils zlib1g-dev unzip curl python-tk git xmlstarlet apt-utils \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
@@ -23,14 +24,17 @@ ENV JAVA_VERSION=8 \
     MAVEN_HOME="/usr/share/maven" \
     MAVEN_CONFIG="/root/.m2"
 
-# Install Java
+# Install Java, Maven and Gradle
 RUN apt-get update \
-    && apt-get -y install openjdk-$JAVA_VERSION-jdk ant maven gradle \
+    && apt-get -y install openjdk-$JAVA_VERSION-jdk maven gradle \
     && apt-get clean \
     && update-ca-certificates -f \
     && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-COPY m2-settings.xml $MAVEN_CONFIG/settings.xml
-
 # Install httpie
 RUN pip install httpie && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Install SDK and Groovym Ant, Maven and Gradle
+RUN curl -s get.sdkman.io | bash
+RUN /bin/bash -c "source /root/.sdkman/bin/sdkman-init.sh && sdk install groovy && sdk install ant"
+COPY m2-settings.xml $MAVEN_CONFIG/settings.xml
