@@ -10,5 +10,6 @@ to run continuous load-testing via [Taurus](https://www.gettaurus.org).
 
 - Latest stable Ubuntu version (16.04)
 - Pre-Installed Taurus
-- Pre-Installed jmeter module
+- Pre-Installed JMeter module
 - Pre-Installed Groovy
+- Pre-Installed PHP7 + GuzzleHTTP

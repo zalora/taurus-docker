@@ -37,4 +37,9 @@ RUN pip install httpie && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 # Install SDK and Groovym Ant, Maven and Gradle
 RUN curl -s get.sdkman.io | bash
 RUN /bin/bash -c "source /root/.sdkman/bin/sdkman-init.sh && sdk install groovy && sdk install ant"
-COPY m2-settings.xml $MAVEN_CONFIG/settings.xml
+
+# Install PHP
+RUN apt-get update \
+    && apt-get -y install php php-cli php-curl php-json php-guzzlehttp \
+    && apt-get clean \
+    && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
